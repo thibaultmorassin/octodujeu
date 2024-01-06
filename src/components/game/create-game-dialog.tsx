@@ -26,6 +26,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { PackagePlus } from "lucide-react";
+import { SearchBar } from "./searchbar";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -60,12 +61,15 @@ const CreateGameDialog: React.FC = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button>
-          <PackagePlus size={20} />
-          Ajouter un jeu
-        </Button>
-      </DialogTrigger>
+      <div className="flex flex-col-reverse gap-4 md:flex-row justify-between">
+        <DialogTrigger asChild>
+          <Button>
+            <PackagePlus size={20} />
+            Ajouter un jeu
+          </Button>
+        </DialogTrigger>
+        <SearchBar />
+      </div>
       <DialogContent className="">
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <DialogHeader>
