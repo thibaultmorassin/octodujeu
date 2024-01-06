@@ -25,6 +25,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { PackagePlus } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -60,7 +61,10 @@ const CreateGameDialog: React.FC = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Ajouter un jeu</Button>
+        <Button>
+          <PackagePlus size={20} />
+          Ajouter un jeu
+        </Button>
       </DialogTrigger>
       <DialogContent className="">
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

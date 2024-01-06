@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import Link from "next/link";
 
 export const geist = localFont({ src: "../lib/GeistVariableVF.woff2" });
 
@@ -25,7 +26,7 @@ export default function RootLayout({
             <div className="flex flex-col text-foreground">
               <p className="flex font-medium text-3xl lg:text-4xl !leading-tight mx-auto max-w-xl text-center my-12">
                 <Dices className="mr-2 h-10 w-10" />
-                Octodujeux
+                <Link href={"/"}>Octodujeux</Link>
               </p>
             </div>
             <div className="mx-[10vw] space-y-4">{children}</div>
