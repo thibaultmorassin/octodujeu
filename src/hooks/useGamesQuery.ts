@@ -11,7 +11,9 @@ const useGamesQuery = (whereFilter?: QueryFieldFilterConstraint) => {
   const { data, isLoading, error } = useSWR(
     DatabaseCollection.game,
     async () => {
-      const querySnapshot = await getDocs(query(gameCollection));
+      const querySnapshot = await getDocs(
+        query(gameCollection, ...(whereFilter ? [whereFilter] : [])),
+      );
       const data: any[] = [];
       querySnapshot.forEach((doc) =>
         data.push({
@@ -23,7 +25,7 @@ const useGamesQuery = (whereFilter?: QueryFieldFilterConstraint) => {
     },
   );
 
-  return { data, isLoading, error };
+  return { data: data ?? [], isLoading, error };
 };
 
 export default useGamesQuery;
