@@ -2,6 +2,7 @@ import { Dices } from "lucide-react";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 export const geist = localFont({ src: "../lib/GeistVariableVF.woff2" });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
               </p>
             </div>
             <div className="mx-[10vw] space-y-4">{children}</div>
+            <Toaster />
           </div>
         </div>
       </body>
