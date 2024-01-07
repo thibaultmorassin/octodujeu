@@ -1,9 +1,11 @@
 "use client";
 
 import CreateGameDialog from "@/components/game/create-game-dialog";
+import { SearchBar } from "@/components/game/searchbar";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import useGamesQuery from "@/hooks/useGamesQuery";
+import { endAt, orderBy, startAt } from "firebase/firestore";
 import {
   AlertTriangle,
   CalendarCheck2,
@@ -11,11 +13,28 @@ import {
   UsersRound,
 } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import Loading from "./loading";
-import { SearchBar } from "@/components/game/searchbar";
 
 export default function Home() {
-  const { data, isLoading, error } = useGamesQuery();
+  const searchParams = useSearchParams();
+  const searchValue = searchParams.get("search");
+
+  const { data, isLoading, error, mutate } = useGamesQuery(
+    searchValue?.length
+      ? [
+          orderBy("nameLowercase"),
+          startAt(searchValue),
+          endAt(searchValue + "\uf8ff"),
+        ]
+      : undefined,
+  );
+
+  useEffect(() => {
+    mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchValue]);
 
   if (isLoading) {
     return <Loading />;
