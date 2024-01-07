@@ -61,15 +61,12 @@ const CreateGameDialog: React.FC = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <div className="flex flex-col-reverse gap-4 md:flex-row justify-between">
-        <DialogTrigger asChild>
-          <Button>
-            <PackagePlus size={20} />
-            Ajouter un jeu
-          </Button>
-        </DialogTrigger>
-        <SearchBar />
-      </div>
+      <DialogTrigger asChild>
+        <Button>
+          <PackagePlus size={20} />
+          Ajouter un jeu
+        </Button>
+      </DialogTrigger>
       <DialogContent className="">
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <DialogHeader>
