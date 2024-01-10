@@ -1,7 +1,9 @@
 "use client";
 
 import useCreateGameMutation from "@/hooks/useCreateGameMutation";
+import useStorageQuery from "@/hooks/useStorageQuery";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { PackagePlus } from "lucide-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -25,8 +27,13 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { PackagePlus } from "lucide-react";
-import { SearchBar } from "./searchbar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -38,12 +45,15 @@ const formSchema = z.object({
   maxPlayer: z.number().int().positive(),
   picture: z.string().optional(),
   type: z.string().optional(),
+  storage: z.string(),
 });
 
 export type CreateGameArguments = z.infer<typeof formSchema>;
 
 const CreateGameDialog: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { data } = useStorageQuery();
 
   const { trigger, isMutating } = useCreateGameMutation();
 
@@ -53,7 +63,7 @@ const CreateGameDialog: React.FC = () => {
 
   const onSubmit = async (values: CreateGameArguments) => {
     const response = await trigger(values);
-    if (response.id) {
+    if (response?.id) {
       setIsOpen(false);
       toast("Le jeu a bien été créé.");
     }
@@ -164,6 +174,30 @@ const CreateGameDialog: React.FC = () => {
                 )}
               />
             </div>
+            <FormField
+              control={form.control}
+              name="storage"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Rangement</FormLabel>
+                  <Select onValueChange={field.onChange}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Sélectionnez la boîte de rangement" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {data?.map((storage) => (
+                        <SelectItem key={storage.id} value={storage.id}>
+                          {storage.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </Form>
           <DialogFooter className="gap-y-2">
             <DialogClose asChild>

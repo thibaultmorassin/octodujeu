@@ -9,17 +9,24 @@ const useCreateGameMutation = (optimisticData?: any) => {
     DatabaseCollection.game,
     async (_url: string, { arg }: { arg: CreateGameArguments }) => {
       try {
+        const storageRef = doc(db, DatabaseCollection.storage, arg.storage);
+        const gameInput = {
+          ...arg,
+          storage: storageRef,
+          nameLowercase: arg.name.toLowerCase(),
+        };
+
         const docRef = await addDoc(gameCollection, arg);
         const generatedQRCode = await QRCode.toDataURL(docRef.id);
+
         await setDoc(doc(db, DatabaseCollection.game, docRef.id), {
-          ...arg,
+          ...gameInput,
           qrCode: generatedQRCode,
         });
 
         return {
           id: docRef.id,
-          ...arg,
-          nameLowercase: arg.name.toLowerCase(),
+          ...gameInput,
           qrCode: generatedQRCode,
         };
       } catch (error) {
