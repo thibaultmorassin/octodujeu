@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import Link from "next/link";
+import { MainNavigation } from "@/components/layout/main-navigation";
 
 export const geist = localFont({ src: "../lib/GeistVariableVF.woff2" });
 
@@ -29,7 +30,10 @@ export default function RootLayout({
                 <Link href={"/"}>Octodujeux</Link>
               </p>
             </div>
-            <div className="mx-[10vw] space-y-4">{children}</div>
+            <div className="mx-[10vw] space-y-4">
+              <MainNavigation />
+              {children}
+            </div>
             <Toaster />
           </div>
         </div>
