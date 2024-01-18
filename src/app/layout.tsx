@@ -30,9 +30,9 @@ export default function RootLayout({
                 <Link href={"/"}>Octodujeux</Link>
               </p>
             </div>
-            <div className="mx-[10vw] space-y-4">
-              <MainNavigation />
+            <div className="flex flex-col md:flex-col-reverse gap-4 mx-[10vw]">
               {children}
+              <MainNavigation />
             </div>
             <Toaster />
           </div>
