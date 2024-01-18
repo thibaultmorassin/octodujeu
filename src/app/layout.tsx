@@ -34,7 +34,7 @@ export default function RootLayout({
               {children}
               <MainNavigation />
             </div>
-            <Toaster />
+            <Toaster position="top-right" />
           </div>
         </div>
       </body>
