@@ -1,29 +1,47 @@
+import jsQR, { QRCode } from "jsQR";
 import React, { useEffect, useRef, useState } from "react";
-import jsQR from "jsQR";
+
+const drawLine = (
+  canvas: CanvasRenderingContext2D | null | undefined,
+  begin: { x: number; y: number },
+  end: { x: number; y: number },
+) => {
+  if (canvas) {
+    canvas.beginPath();
+    canvas.moveTo(begin.x, begin.y);
+    canvas.lineTo(end.x, end.y);
+    canvas.lineWidth = 4;
+    canvas.strokeStyle = "#FF3B58";
+    canvas.stroke();
+  }
+};
+
+const drawSquare = (
+  canvas: CanvasRenderingContext2D | null | undefined,
+  code: QRCode,
+) => {
+  drawLine(canvas, code.location.topLeftCorner, code.location.topRightCorner);
+  drawLine(
+    canvas,
+    code.location.topRightCorner,
+    code.location.bottomRightCorner,
+  );
+  drawLine(
+    canvas,
+    code.location.bottomRightCorner,
+    code.location.bottomLeftCorner,
+  );
+  drawLine(canvas, code.location.bottomLeftCorner, code.location.topLeftCorner);
+};
 
 const QrCodeScanner: React.FC = () => {
+  const streamRef = useRef<MediaStream>();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [scannedData, setScannedData] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    const drawLine = (
-      begin: { x: number; y: number },
-      end: { x: number; y: number },
-      color: string,
-    ) => {
-      const canvas = canvasRef.current?.getContext("2d");
-      if (canvas) {
-        canvas.beginPath();
-        canvas.moveTo(begin.x, begin.y);
-        canvas.lineTo(end.x, end.y);
-        canvas.lineWidth = 4;
-        canvas.strokeStyle = color;
-        canvas.stroke();
-      }
-    };
-
     const detectCodeTick = () => {
       if (!videoRef.current || !canvasRef.current) {
         return;
@@ -37,6 +55,7 @@ const QrCodeScanner: React.FC = () => {
         const canvas = canvasRef.current;
         const videoWidth = video.videoWidth;
         const videoHeight = video.videoHeight;
+
         if (canvas) {
           canvas.height = videoHeight;
           canvas.width = videoWidth;
@@ -60,26 +79,7 @@ const QrCodeScanner: React.FC = () => {
             );
 
             if (code) {
-              drawLine(
-                code.location.topLeftCorner,
-                code.location.topRightCorner,
-                "#FF3B58",
-              );
-              drawLine(
-                code.location.topRightCorner,
-                code.location.bottomRightCorner,
-                "#FF3B58",
-              );
-              drawLine(
-                code.location.bottomRightCorner,
-                code.location.bottomLeftCorner,
-                "#FF3B58",
-              );
-              drawLine(
-                code.location.bottomLeftCorner,
-                code.location.topLeftCorner,
-                "#FF3B58",
-              );
+              drawSquare(canvasRef.current?.getContext("2d"), code);
               setScannedData(code.data);
             } else {
               console.log("No QR code detected.");
@@ -92,8 +92,20 @@ const QrCodeScanner: React.FC = () => {
     };
 
     navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: "environment" } })
+      .getUserMedia({
+        audio: false,
+        video: {
+          facingMode: "environment",
+          frameRate: {
+            ideal: 30,
+          },
+          width: 400,
+          height: 400,
+        },
+      })
       .then((stream) => {
+        streamRef.current = stream;
+
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           videoRef.current.setAttribute("playsinline", "true");
@@ -102,21 +114,36 @@ const QrCodeScanner: React.FC = () => {
         }
       });
 
-    const stream = videoRef.current?.srcObject as MediaStream | null;
+    const videoStream = videoRef.current?.srcObject as MediaStream | null;
 
     return () => {
-      if (stream) {
-        const tracks = stream.getTracks();
-        tracks.forEach((track) => {
-          track.stop();
-        });
+      if (!videoStream) {
+        return;
       }
+      const tracks = videoStream.getTracks();
+      tracks.forEach((track) => {
+        track.stop();
+        videoStream.removeTrack(track);
+      });
+      handleStopStream();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleStopStream = () => {
+    if (!streamRef.current) {
+      return;
+    }
+    const tracks = streamRef.current.getTracks();
+    tracks.forEach((track) => {
+      track.stop();
+      streamRef.current?.removeTrack(track);
+    });
+  };
 
   return (
     <div>
-      <canvas ref={canvasRef} className="w-full mb-4"></canvas>
+      <canvas ref={canvasRef} className="w-full max-w-sm m-auto mb-4"></canvas>
       <video
         ref={videoRef}
         id="video"
