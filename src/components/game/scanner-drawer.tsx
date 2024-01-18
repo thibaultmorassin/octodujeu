@@ -9,6 +9,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "../ui/drawer";
+import QrCodeScanner from "./qr-code-scanner";
 
 type Props = {
   selectedBox: StorageBox | null;
@@ -26,7 +27,9 @@ const ScannerDrawer: React.FC<Props> = ({ selectedBox, handleClose }) => {
             {selectedBox?.name}.
           </DrawerDescription>
         </DrawerHeader>
-        <div className="min-h-[50svh] p-4">QRCODE SCANNER</div>
+        <div className="min-h-[50svh] p-4">
+          <QrCodeScanner />
+        </div>
         <DrawerFooter className="pt-2" onClick={handleClose}>
           <Button>{"J'ai terminé"}</Button>
           <Button variant="outline">Annuler</Button>
