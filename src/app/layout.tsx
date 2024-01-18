@@ -23,14 +23,14 @@ export default function RootLayout({
     <html lang="fr" className={geist.className}>
       <body className={"min-h-screen bg-white flex flex-col items-center"}>
         <div className="w-full flex flex-col items-center">
-          <div className="w-full">
+          <div className="w-full h-full mb-16">
             <div className="flex flex-col text-foreground">
               <p className="flex font-medium text-3xl lg:text-4xl !leading-tight mx-auto max-w-xl text-center my-12">
                 <Dices className="mr-2 h-10 w-10" />
                 <Link href={"/"}>Octodujeux</Link>
               </p>
             </div>
-            <div className="flex flex-col md:flex-col-reverse gap-4 mx-[10vw]">
+            <div className="flex flex-col md:flex-col-reverse gap-4 mx-4 md:mx-[10vw]">
               {children}
               <MainNavigation />
             </div>

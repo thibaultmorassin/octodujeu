@@ -23,10 +23,10 @@ export default function Game() {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div className="grid grid-cols-1 gap-8 lg:grid-cols-[320px_1fr]">
+    <div className="flex flex-col gap-8 lg:flex-row">
       <div className="space-y-4">
-        <Card className="aspect-square max-w-xs">
-          <CardTitle className="relative h-full">
+        <Card className="mx-auto md:mx-0 aspect-square max-w-xs">
+          <div className="relative h-full">
             <Image
               className="p-2"
               src={data?.qrCode ?? ""}
@@ -34,7 +34,7 @@ export default function Game() {
               fill
               sizes="100vw"
             />
-          </CardTitle>
+          </div>
         </Card>
         <Button disabled>
           <PrinterIcon size={18} />

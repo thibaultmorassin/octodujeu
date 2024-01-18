@@ -33,7 +33,7 @@ export function MainNavigation({
   const pathname = usePathname();
 
   return (
-    <div className="fixed bg-white/25 border border-white backdrop-saturate-150	 backdrop-blur-sm grid place-items-center bottom-0 left-0 right-0 py-2 px-4 md:block md:static md:p-0">
+    <div className="fixed bg-white/25 border border-white/50 backdrop-saturate-150	 backdrop-blur-sm grid place-items-center bottom-0 left-0 right-0 py-2 px-4 md:block md:static md:p-0">
       <nav
         className={cn(
           "grid grid-cols-3 w-full md:w-auto gap-x-1 md:inline-flex md:h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
