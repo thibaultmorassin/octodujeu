@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import Link from "next/link";
 import { MainNavigation } from "@/components/layout/main-navigation";
 
-export const geist = localFont({ src: "../lib/GeistVariableVF.woff2" });
+const geist = localFont({ src: "../lib/GeistVariableVF.woff2" });
 
 export const metadata: Metadata = {
   title: "Octodujeux | Gestion de jeux de société",
