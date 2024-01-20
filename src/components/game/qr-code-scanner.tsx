@@ -34,7 +34,11 @@ const drawSquare = (
   drawLine(canvas, code.location.bottomLeftCorner, code.location.topLeftCorner);
 };
 
-const QrCodeScanner: React.FC = () => {
+type QrCodeScannerProps = {
+  onScan: (gameId: string) => void | Promise<void>;
+};
+
+const QrCodeScanner: React.FC<QrCodeScannerProps> = ({ onScan }) => {
   const streamRef = useRef<MediaStream>();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -69,6 +73,7 @@ const QrCodeScanner: React.FC = () => {
               videoWidth,
               videoHeight,
             );
+
             const code = jsQR(
               imageData.data,
               imageData.width,
@@ -117,33 +122,41 @@ const QrCodeScanner: React.FC = () => {
     const videoStream = videoRef.current?.srcObject as MediaStream | null;
 
     return () => {
-      if (!videoStream) {
-        return;
+      if (videoStream) {
+        const tracks = videoStream.getTracks();
+        tracks.forEach((track) => {
+          track.stop();
+          videoStream.removeTrack(track);
+        });
       }
-      const tracks = videoStream.getTracks();
-      tracks.forEach((track) => {
-        track.stop();
-        videoStream.removeTrack(track);
-      });
       handleStopStream();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleStopStream = () => {
-    if (!streamRef.current) {
-      return;
+    if (streamRef.current) {
+      const tracks = streamRef.current.getTracks();
+      tracks.forEach((track) => {
+        track.stop();
+        streamRef.current?.removeTrack(track);
+      });
     }
-    const tracks = streamRef.current.getTracks();
-    tracks.forEach((track) => {
-      track.stop();
-      streamRef.current?.removeTrack(track);
-    });
   };
+
+  useEffect(() => {
+    if (scannedData) {
+      onScan(scannedData);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scannedData]);
 
   return (
     <div>
-      <canvas ref={canvasRef} className="w-full max-w-sm m-auto mb-4"></canvas>
+      <canvas
+        ref={canvasRef}
+        className="w-full max-w-sm max-h-[50svh] m-auto mb-4 -scale-x-100"
+      ></canvas>
       <video
         ref={videoRef}
         id="video"
@@ -151,7 +164,6 @@ const QrCodeScanner: React.FC = () => {
         hidden
         autoPlay
       ></video>
-      <b>Data:</b> <pre>{JSON.stringify(scannedData)}</pre>
     </div>
   );
 };
