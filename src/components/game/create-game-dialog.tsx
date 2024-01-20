@@ -65,7 +65,7 @@ const CreateGameDialog: React.FC = () => {
     const response = await trigger(values);
     if (response?.id) {
       setIsOpen(false);
-      toast("Le jeu a bien été créé.");
+      toast.success("Le jeu a bien été créé.");
     }
   };
 
