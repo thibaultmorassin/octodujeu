@@ -1,5 +1,6 @@
 "use client";
 
+import ScannerDrawer from "@/components/game/scanner-drawer";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,15 +10,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import useStorageQuery from "@/hooks/useStorageQuery";
-import { ArchiveRestore } from "lucide-react";
-import Loading from "./loading";
-import { useState } from "react";
 import { StorageBox } from "@/lib/storage.type";
-import ScannerDrawer from "@/components/game/scanner-drawer";
+import { ArchiveRestore } from "lucide-react";
+import { useState } from "react";
+import Loading from "./loading";
 
 export default function StorageMode() {
-  const { data, isLoading } = useStorageQuery();
+  const { data, isLoading, mutate } = useStorageQuery();
   const [selectedBoxId, setSelectedBoxId] = useState<StorageBox | null>(null);
+
+  const handleDrawerClose = () => {
+    mutate();
+    setSelectedBoxId(null);
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -47,7 +52,7 @@ export default function StorageMode() {
       ))}
       <ScannerDrawer
         selectedBox={selectedBoxId}
-        handleClose={() => setSelectedBoxId(null)}
+        handleClose={handleDrawerClose}
       />
     </>
   );
