@@ -35,6 +35,9 @@ export default function Game() {
               sizes="100vw"
             />
           </div>
+          <div className="text-xl font-bold text-center uppercase m-4 mt-0">
+            {data?.name}
+          </div>
         </Card>
         <Button disabled>
           <PrinterIcon size={18} />
@@ -47,21 +50,23 @@ export default function Game() {
           <p className="text-muted-foreground">ID: {gameId}</p>
         </div>
         <Separator className="my-4" />
-        <div className="items-center grid grid-cols-4">
-          <span className="flex items-center text-muted-foreground">
-            <UsersRound className="mr-1 h-3 w-3" /> Nombre de joueurs
-          </span>
-          <span className="grid-span-3">
-            {data?.minPlayer} à {data?.maxPlayer}
-          </span>
-        </div>
-        <div className="items-center grid grid-cols-4">
-          <span className="flex items-center text-muted-foreground">
-            <CalendarCheck2 className="mr-1 h-3 w-3" /> {"Tranche d'âge"}
-          </span>
-          <span className="grid-span-3">
-            {data?.minAge} à {data?.maxAge}
-          </span>
+        <div className="space-y-1">
+          <div className="items-center grid grid-cols-2 md:grid-cols-4">
+            <span className="flex items-center text-muted-foreground">
+              <UsersRound className="mr-1 h-3 w-3" /> Nombre de joueurs
+            </span>
+            <span className="grid-span-3">
+              {data?.minPlayer} à {data?.maxPlayer}
+            </span>
+          </div>
+          <div className="items-center grid grid-cols-2 md:grid-cols-4">
+            <span className="flex items-center text-muted-foreground">
+              <CalendarCheck2 className="mr-1 h-3 w-3" /> {"Tranche d'âge"}
+            </span>
+            <span className="grid-span-3">
+              {data?.minAge} à {data?.maxAge}
+            </span>
+          </div>
         </div>
         <Alert className="my-4 bg-foreground text-background flex gap-2 items-center">
           <div>
