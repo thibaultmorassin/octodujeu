@@ -15,7 +15,7 @@ const navigationLinks = [
   {
     label: "Boîtes de rangements",
     mobileLabel: "Boîtes",
-    href: "/boxes",
+    href: "/storage",
     icon: <PackageOpen size={20} />,
   },
   {
