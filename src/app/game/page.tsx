@@ -2,7 +2,7 @@
 
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Card, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import useGameByIdQuery from "@/hooks/useGameByIdQuery";
 import {
@@ -15,7 +15,6 @@ import {
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Loading from "./loading";
-import Link from "next/link";
 
 export default function Game() {
   const searchParams = useSearchParams();

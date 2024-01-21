@@ -1,11 +1,6 @@
 import type { ReadonlyURLSearchParams } from "next/navigation";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo } from "react";
-
-type SearchParamsInput = {
-  name: string;
-  value: string;
-};
+import { useCallback } from "react";
 
 type PushSearchParams = {
   searchParams: ReadonlyURLSearchParams;
