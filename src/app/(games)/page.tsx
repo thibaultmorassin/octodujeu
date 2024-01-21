@@ -4,14 +4,10 @@ import CreateGameDialog from "@/components/game/create-game-dialog";
 import { SearchBar } from "@/components/game/searchbar";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import EmptyState from "@/components/ui/empty-state";
 import useGamesQuery from "@/hooks/useGamesQuery";
 import { endAt, orderBy, startAt } from "firebase/firestore";
-import {
-  AlertTriangle,
-  CalendarCheck2,
-  RocketIcon,
-  UsersRound,
-} from "lucide-react";
+import { AlertTriangle, CalendarCheck2, UsersRound } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
@@ -83,13 +79,7 @@ export default function Home() {
             </Link>
           ))
         ) : (
-          <Alert>
-            <RocketIcon className="h-4 w-4" />
-            <AlertTitle>Heads up!</AlertTitle>
-            <AlertDescription>
-              You can add components to your app using the cli.
-            </AlertDescription>
-          </Alert>
+          <EmptyState />
         )}
       </div>
     </main>
