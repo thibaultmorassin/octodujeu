@@ -7,11 +7,17 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import EmptyState from "@/components/ui/empty-state";
 import useGamesQuery from "@/hooks/useGamesQuery";
 import { endAt, orderBy, startAt } from "firebase/firestore";
-import { AlertTriangle, CalendarCheck2, UsersRound } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowRightToLine,
+  CalendarCheck2,
+  UsersRound,
+} from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import Loading from "./loading";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -53,7 +59,7 @@ export default function Home() {
         <SearchBar />
         <CreateGameDialog />
       </div>
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {data?.length ? (
           data?.map((game) => (
             <Link
@@ -61,8 +67,13 @@ export default function Home() {
               key={game.id}
               style={{ width: "100%" }}
             >
-              <Card>
-                <CardHeader className="pb-2">{game.name}</CardHeader>
+              <Card className="relative">
+                <CardHeader className="pb-2">
+                  {game.name}
+                  <Button className="absolute top-1/2 -translate-y-1/2 right-4">
+                    <ArrowRightToLine />
+                  </Button>
+                </CardHeader>
                 <CardContent>
                   <div className="flex space-x-4 text-sm text-muted-foreground">
                     <div className="flex items-center">
