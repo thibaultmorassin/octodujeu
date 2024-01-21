@@ -49,7 +49,7 @@ const ScannerDrawer: React.FC<ScannerDrawerProps> = ({
         <DrawerHeader className="text-left">
           <DrawerTitle>{selectedBox?.name}</DrawerTitle>
           <DrawerDescription>
-            Scannez chaque boîte avant de la ranger dans la boîte{" "}
+            Scannez chaque jeu avant de la ranger dans la boîte{" "}
             {selectedBox?.name}.
           </DrawerDescription>
         </DrawerHeader>
