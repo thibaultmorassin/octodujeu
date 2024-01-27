@@ -155,7 +155,7 @@ const QrCodeScanner: React.FC<QrCodeScannerProps> = ({ onScan }) => {
     <div>
       <canvas
         ref={canvasRef}
-        className="w-full max-w-sm max-h-[50svh] m-auto mb-4 -scale-x-100"
+        className="w-full max-w-sm max-h-[50svh] m-auto mb-4"
       ></canvas>
       <video
         ref={videoRef}

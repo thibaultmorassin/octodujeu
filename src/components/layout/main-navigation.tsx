@@ -45,7 +45,7 @@ export function MainNavigation({
           const isActive =
             href === "/"
               ? pathname === href || pathname === "/game"
-              : pathname.startsWith(href);
+              : pathname.split("/").at(1) === href.split("/").at(1);
 
           return (
             <Link
