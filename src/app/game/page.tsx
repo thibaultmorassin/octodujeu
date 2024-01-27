@@ -1,7 +1,6 @@
 "use client";
 
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import useGameByIdQuery from "@/hooks/useGameByIdQuery";
@@ -9,12 +8,12 @@ import {
   CalendarCheck2,
   ChevronRightIcon,
   PackageOpen,
-  PrinterIcon,
   UsersRound,
 } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Loading from "./loading";
+import { PrintCodeDrawer } from "@/components/game/print-drawer";
 
 export default function Game() {
   const searchParams = useSearchParams();
@@ -51,10 +50,7 @@ export default function Game() {
               {data?.name}
             </div>
           </Card>
-          <Button className="w-full" disabled>
-            <PrinterIcon size={18} />
-            Imprimer le QR Code
-          </Button>
+          <PrintCodeDrawer />
         </div>
         <div className="flex-1">
           <div className="space-y-0.5">
